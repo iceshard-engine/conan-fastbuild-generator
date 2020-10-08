@@ -1,0 +1,22 @@
+name: Validate
+
+on: 'push'
+
+jobs:
+
+  validation-build:
+    name: Validate (*)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup conan
+      run: |
+        pip3 install setuptools
+        pip3 install conan
+        ~/.local/bin/conan remote add conan-iceshard https://conan.iceshard.net/
+    - name: Create package
+      run: |
+        ~/.local/bin/conan create . fastbuild-generator/0.1.0@iceshard/stable
+    - name: Success
+      run: |
+        echo 'Validation success'
