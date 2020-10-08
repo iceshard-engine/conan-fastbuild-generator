@@ -1,0 +1,11 @@
+image: lasote/conanclang60
+
+build:
+  stage: build
+  tags:
+  - docker
+  script:
+  - conan remote add conan-upstream $CONAN_SERVER
+  - conan create . fastbuild-generator/0.2@$CONAN_USER/stable
+  - conan user $CONAN_USER -r conan-upstream -p $CONAN_PASSWORD
+  - conan upload -r conan-upstream fastbuild-generator/0.2@$CONAN_USER/stable --all
